@@ -9,14 +9,14 @@ import ru.neverdark.hwmon.vendor.infortrend.DS3048RE;
  */
 public class HardwareFactory {
     public static NetworkHardware getInstance(DeviceConfig deviceConfig) throws Exception {
-        if (deviceConfig.getVendor().toLowerCase().equals("infrotrend")) {
-            return handleInfrotrend(deviceConfig);
+        if (deviceConfig.getVendor().toLowerCase().equals("infortrend")) {
+            return handleInfortrend(deviceConfig);
         }
 
         throw new Exception("Unsupported vendor " + deviceConfig.getVendor());
     }
 
-    private static NetworkHardware handleInfrotrend(DeviceConfig deviceConfig) throws Exception {
+    private static NetworkHardware handleInfortrend(DeviceConfig deviceConfig) throws Exception {
         if (deviceConfig.getModel().toLowerCase().equals("ds3048re")) {
             return new DS3048RE(deviceConfig.getIp(), deviceConfig.getCommunity(), deviceConfig.getName());
         } else if (deviceConfig.getModel().toLowerCase().equals("ds3024rb")) {
