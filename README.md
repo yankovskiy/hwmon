@@ -6,3 +6,11 @@
 * DS3024RB
 
 Список мониторинга задается в xml-файле, пример смотрите в [config.xml](https://github.com/yankovskiy/hwmon/blob/master/config.xml).
+
+Использование:
+
+`java -jar hwmon.jar config.xml`
+> для запуска из системы мониторинга
+
+`java -jar hwmon.jar config.xml -dump`
+> для тестового вывода всех устройств мониторинга
