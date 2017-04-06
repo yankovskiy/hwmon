@@ -73,7 +73,7 @@ public class DS3024RB extends DiskArray {
         boolean isSpareDisk = manager.getAsInt(oid) == 9;
 
         oid = String.format(Locale.US, ".1.3.6.1.4.1.1714.1.1.6.1.13.%d", diskIndex);
-        int slot = manager.getAsInt(oid);
+        String slot = manager.getAsString(oid);
 
         return new Disk(slot, name, serial, (int) size, State.values()[state], isSpareDisk);
     }
@@ -107,8 +107,16 @@ public class DS3024RB extends DiskArray {
         int unit = manager.getAsInt(unitOid);
 
         int temp = (value * unit / 1000) - 273;
+        State state;
+        if (temp >= 70 || temp < 15) {
+            state = State.FAIL;
+        } else if (temp >= 60) {
+            state = State.WARNING;
+        } else {
+            state = State.HEALTH;
+        }
 
-        return new Sensor(SensorType.TEMPERATURE, name, temp);
+        return new Sensor(SensorType.TEMPERATURE, name, String.valueOf(temp), state);
     }
 
     private Sensor getPSU(SnmpManager manager, String pattern) throws IOException {

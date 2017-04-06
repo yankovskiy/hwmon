@@ -6,5 +6,5 @@ package ru.neverdark.hwmon.hardware;
 public enum State {
     HEALTH,
     FAIL,
-    UNAVAIL
+    WARNING, UNAVAIL
 }

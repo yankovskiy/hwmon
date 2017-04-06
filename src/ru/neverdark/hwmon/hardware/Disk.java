@@ -7,11 +7,11 @@ import java.util.Locale;
  */
 public class Disk {
     private final String mSerial;
-    private final boolean mIsSpare;
-    private final int mSlot;
+    private boolean mIsSpare;
+    private final String mSlot;
 
-    public Disk(int slotNumber, String name, String serial, int size, State state, boolean isSpare) {
-        this.mSlot = slotNumber;
+    public Disk(String mSlotName, String name, String serial, int size, State state, boolean isSpare) {
+        this.mSlot = mSlotName;
         this.mName = name;
         this.mState = state;
         this.mSize = size;
@@ -19,7 +19,7 @@ public class Disk {
         this.mIsSpare = isSpare;
     }
 
-    public int getSlot() {
+    public String getSlot() {
         return mSlot;
     }
 
@@ -49,6 +49,10 @@ public class Disk {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "Slot: %d. Model: %s. Serial: %s. Size: %dGB. State: %s. HotSpare: %b", mSlot, mName.trim(), mSerial.trim(), mSize, mState.toString(), mIsSpare);
+        return String.format(Locale.US, "Slot: %s. Model: %s. Serial: %s. Size: %dGB. State: %s. HotSpare: %b", mSlot, mName.trim(), mSerial.trim(), mSize, mState.toString(), mIsSpare);
+    }
+
+    public void setIsSpare(boolean isSpare) {
+        this.mIsSpare = isSpare;
     }
 }

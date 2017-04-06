@@ -17,5 +17,11 @@
             <ip>192.168.1.3</ip>
             <community>public</community>
         </device>
+        <device>
+            <vendor>Dell</vendor>
+            <model>MD3820F</model>
+            <name>Hostname3</name>
+            <ip>192.128.1.4</ip>
+        </device>
     </devices>
 </config>

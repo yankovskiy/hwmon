@@ -32,7 +32,7 @@ public class XymonDiskArray {
                     localStatus = "&purple";
                 }
 
-                html += String.format(Locale.US, "<tr><td>%s</td><td>%d</td><td>%s</td><td>%s</td><td>%dGb</td><td>%b</td></tr>",
+                html += String.format(Locale.US, "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%dGb</td><td>%b</td></tr>",
                         localStatus, disk.getSlot(), disk.getName(), disk.getSerial(), disk.getSize(), disk.isSpareDisk());
 
                 isGood &= localStatus.equals("&green");
@@ -49,12 +49,36 @@ public class XymonDiskArray {
         List<Sensor> sensorList = mHardware.getSensorList(SensorType.TEMPERATURE);
         if (sensorList.size() > 0) {
             String html = "<table class=hwmon><tr><th colspan=2>Name</th><th>Temperature</th></tr>";
+            String localStatus = null;
+            boolean isGood = true;
+            boolean isRed = false;
+
             for (Sensor sensor: sensorList) {
-                html += String.format(Locale.US, "<tr><td>&green</td><td>%s</td><td>%d</td></tr>", sensor.getName(), sensor.getIntValue());
+                if (sensor.getState() == State.HEALTH) {
+                    localStatus = "&green";
+                } else if (sensor.getState() == State.FAIL) {
+                    localStatus = "&red";
+                } else if(sensor.getState() == State.WARNING) {
+                    localStatus = "&yellow";
+                } else {
+                    localStatus = "&purple";
+                }
+                html += String.format(Locale.US, "<tr><td>%s</td><td>%s</td><td>%s</td></tr>", localStatus, sensor.getName(), sensor.getValue());
+                isGood &= localStatus.equals("&green");
+                isRed |= localStatus.equals("&red");
             }
             html += "</table>";
 
-            return new CommonStatus("temp", "green", html);
+            String status;
+            if (isRed) {
+                status = "red";
+            } else if (isGood) {
+                status = "green";
+            } else {
+                status = "yellow";
+            }
+
+            return new CommonStatus("temp", status, html);
         }
 
         return null;
@@ -117,7 +141,7 @@ public class XymonDiskArray {
         if (sensorList.size() > 0) {
             String html = "<table class=hwmon><tr><th colspan=2>Name</th><th>Speed</th></tr>";
             for (Sensor sensor: sensorList) {
-                html += String.format(Locale.US, "<tr><td>&green</td><td>%s</td><td>%s</td></tr>", sensor.getName(), sensor.getStringValue());
+                html += String.format(Locale.US, "<tr><td>&green</td><td>%s</td><td>%s</td></tr>", sensor.getName(), sensor.getValue());
             }
             html += "</table>";
 

@@ -1,5 +1,6 @@
 package ru.neverdark.hwmon.hardware;
 
+import java.io.IOException;
 import java.util.Locale;
 
 public abstract class NetworkHardware {
@@ -47,7 +48,7 @@ public abstract class NetworkHardware {
         this.mSnmpVersion = snmpVersion;
     }
 
-    public abstract void collectData();
+    public abstract void collectData() throws IOException;
     public abstract void dump();
     public abstract DeviceType getDeviceType();
 

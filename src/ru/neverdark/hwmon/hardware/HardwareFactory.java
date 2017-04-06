@@ -1,6 +1,7 @@
 package ru.neverdark.hwmon.hardware;
 
 import ru.neverdark.hwmon.config.DeviceConfig;
+import ru.neverdark.hwmon.vendor.dell.MD3820F;
 import ru.neverdark.hwmon.vendor.infortrend.DS3024RB;
 import ru.neverdark.hwmon.vendor.infortrend.DS3048RE;
 
@@ -13,7 +14,19 @@ public class HardwareFactory {
             return handleInfortrend(deviceConfig);
         }
 
+        if (deviceConfig.getVendor().toLowerCase().equals("dell")) {
+            return handleDell(deviceConfig);
+        }
+
         throw new Exception("Unsupported vendor " + deviceConfig.getVendor());
+    }
+
+    private static NetworkHardware handleDell(DeviceConfig deviceConfig) throws Exception {
+        if (deviceConfig.getModel().toLowerCase().equals("md3820f")) {
+            return new MD3820F(deviceConfig.getIp(), deviceConfig.getName());
+        }
+
+        throw new Exception("Unsupported device " + deviceConfig.getModel() + " from vendor " + deviceConfig.getVendor());
     }
 
     private static NetworkHardware handleInfortrend(DeviceConfig deviceConfig) throws Exception {

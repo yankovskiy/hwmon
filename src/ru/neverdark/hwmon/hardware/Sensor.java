@@ -9,7 +9,6 @@ public class Sensor {
     private final SensorType mType;
     private State mState = State.UNAVAIL;
     private final String mName;
-    private int mValue = -1;
     private String mStrValue = null;
 
     public State getState() {
@@ -24,18 +23,8 @@ public class Sensor {
         return mName;
     }
 
-    public int getIntValue() {
-        return mValue;
-    }
-
-    public String getStringValue() {
+    public String getValue() {
         return mStrValue;
-    }
-
-    public Sensor(SensorType type, String name, int value) {
-        this.mName = name;
-        this.mValue = value;
-        this.mType = type;
     }
 
     public Sensor(SensorType type, String name, String value, State state) {
@@ -54,7 +43,7 @@ public class Sensor {
     @Override
     public String toString() {
         if (mType == SensorType.TEMPERATURE) {
-            return String.format(Locale.US, "Name: %s. Value: %d", mName, mValue);
+            return String.format(Locale.US, "Name: %s. Value: %s. State: %s", mName, mStrValue, mState.toString());
         } else if (mType == SensorType.PSU || mType == SensorType.BATTERY) {
             return String.format(Locale.US, "Name: %s. State: %s", mName, mState.toString());
         } else if (mType == SensorType.FAN) {
