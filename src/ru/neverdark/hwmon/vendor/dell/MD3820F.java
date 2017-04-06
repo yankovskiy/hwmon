@@ -27,8 +27,7 @@ public class MD3820F extends DiskArray {
 
     @Override
     public void collectData() throws IOException {
-        String cli = System.getProperty("user.dir") + "/dell";
-        cli += " -e " + getIp() + " -c 'show storagearray profile;' > /tmp/MD3820F.hwmon";
+        String cli = "/opt/dell/mdstoragemanager/client/SMcli -e " + getIp() + " -c 'show storagearray profile;' > /tmp/MD3820F.hwmon";
 
         Utils.executeShellCommand(cli);
         File file = new File("/tmp/MD3820F.hwmon");
